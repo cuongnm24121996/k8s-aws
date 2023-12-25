@@ -64,3 +64,46 @@ Resources:
     Properties:
       InternetGatewayId: !Ref K8sInternetGateway
       VpcId: !Ref K8sVPC
+  K8sPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref K8sVPC
+      Tags:
+        - Key: Name
+          Value: !Sub 'K8s-RouteTable'
+        - Key: Project
+          Value: aws-eks
+  K8sPublicSubnet01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AvailabilityZonePublicSubnet01
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref PublicSubnet01Block
+      VpcId: !Ref K8sVPC
+      Tags:
+        - Key: Name
+          Value: !Sub 'K8s-PublicSubnet01'
+        - Key: Project
+          Value: aws-eks
+  K8sPublicSubnet02:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AvailabilityZonePublicSubnet02
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref PublicSubnet02Block
+      VpcId: !Ref K8sVPC
+      Tags:
+        - Key: Name
+          Value: !Sub 'K8s-PublicSubnet02'
+        - Key: Project
+          Value: aws-eks
+  K8sPublicSubnet01RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref K8sPublicSubnet01
+      RouteTableId: !Ref K8sPublicRouteTable
+  K8sPublicSubnet02RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref K8sPublicSubnet02
+      RouteTableId: !Ref K8sPublicRouteTable
