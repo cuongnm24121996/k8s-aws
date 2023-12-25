@@ -37,3 +37,9 @@ Resources:
       Type: String
       Name: /k8s/security/iam/arn
       Value: !GetAtt K8sIAMRole.Arn
+  ParameterK8sSecurityGroupId:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /k8s/security/sg/id
+      Value: !Ref K8sSecurityGroup
