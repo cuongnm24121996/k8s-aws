@@ -1,0 +1,19 @@
+aws cloudformation package \
+--template template.yaml \
+--s3-bucket k8s-aws \
+--output-template-file template.build.yaml \
+--force-upload \
+--profile=cuongnm &&
+aws cloudformation validate-template \
+--template-body=file://template.build.yaml \
+--profile=cuongnm &&
+aws cloudformation deploy \
+--stack-name network \
+--template-file template.build.yaml \
+--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+--profile=cuongnm &&
+rm -rf template.build.yaml &&
+git add . &&
+git commit -m "Network changes" &&
+git pull &&
+git push

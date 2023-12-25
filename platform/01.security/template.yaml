@@ -30,3 +30,10 @@ Resources:
       RoleName: k8s-iam-role
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+
+  ParameterK8sIAMRoleArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /k8s/security/iam/arn
+      Value: !GetAtt K8sIAMRole.Arn
