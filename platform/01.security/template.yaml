@@ -107,10 +107,3 @@ Resources:
     Properties:
       SubnetId: !Ref K8sPublicSubnet02
       RouteTableId: !Ref K8sPublicRouteTable
-
-  ParameterK8sVpcId:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Type: String
-      Name: /k8s/network/vpc/id
-      Value: !Ref K8sVPC
