@@ -114,3 +114,15 @@ Resources:
       Type: String
       Name: /k8s/network/vpc/id
       Value: !Ref K8sVPC
+  ParameterK8sPublicSubnet01Id:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /k8s/network/subnet-01/id
+      Value: !Ref K8sPublicSubnet01
+  ParameterK8sPublicSubnet02Id:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /k8s/network/subnet-02/id
+      Value: !Ref K8sPublicSubnet02
