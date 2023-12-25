@@ -59,7 +59,7 @@ Resources:
     Properties:
       Type: String
       Name: /k8s/security/iam/node/arn
-      Value: !GetAtt K8sIAMRole.Arn
+      Value: !GetAtt K8sNodeInstanceRole.Arn
   ParameterK8sSecurityGroupId:
     Type: AWS::SSM::Parameter
     Properties:
