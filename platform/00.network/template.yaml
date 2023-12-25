@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Network resource for eks
+Parameters:
+  VpcBlock:
+    Type: String
+    Default: 10.0.0.0/16
+    Description: The CIDR range for the VPC. This should be a valid private (RFC 1918) CIDR range.
+    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  PublicSubnet01Block:
+    Type: String
+    Default: 10.0.0.0/24
+    Description: CidrBlock for public subnet 01 within the VPC.
+    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  PublicSubnet02Block:
+    Type: String
+    Default: 10.0.1.0/24
+    Description: CidrBlock for public subnet 02 within the VPC.
+    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  AvailabilityZonePublicSubnet01:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: ap-southeast-1a
+    Description: Availability Zone for the Public Subnet 01.
+  AvailabilityZonePublicSubnet02:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: ap-southeast-1b
+    Description: Availability Zone for the Public Subnet 02.
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: "Worker Network Configuration"
+        Parameters:
+          - VpcBlock
+          - PublicSubnet01Block
+          - AvailabilityZonePublicSubnet01
+          - PublicSubnet02Block
+          - AvailabilityZonePublicSubnet02
+Resources:
+  K8sVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcBlock
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-VPC'
+        - Key: Project
+          Value: aws-eks
+  K8sInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-InternetGateway'
+        - Key: Project
+          Value: aws-eks
+  K8sVPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref K8sInternetGateway
+      VpcId: !Ref K8sVPC

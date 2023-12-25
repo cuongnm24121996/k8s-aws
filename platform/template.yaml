@@ -1,9 +1,0 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: K8s resource for microservices
-Resources:
-  ParameterTest:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Type: String
-      Name: /devops/test/config
-      Value: 1
