@@ -8,12 +8,12 @@ aws cloudformation validate-template \
 --template-body=file://template.build.yaml \
 --profile=cuongnm &&
 aws cloudformation deploy \
---stack-name network \
+--stack-name k8s \
 --template-file template.build.yaml \
 --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
 --profile=cuongnm &&
 rm -rf template.build.yaml &&
 git add . &&
-git commit -m "Network changes" &&
+git commit -m "K8s changes" &&
 git pull &&
 git push
